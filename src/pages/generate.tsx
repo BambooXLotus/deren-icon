@@ -3,10 +3,17 @@ import { useState } from "react";
 import { FormGroup } from "~/components/FormGroup";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { api } from "~/utils/api";
 
 export default function GeneratePage() {
   const [form, setForm] = useState({
     prompt: "",
+  });
+
+  const generateIcon = api.generate.generateIcon.useMutation({
+    onSuccess: (data) => {
+      console.log("donkey ", data);
+    },
   });
 
   function updateForm(key: string) {
@@ -20,6 +27,10 @@ export default function GeneratePage() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    generateIcon.mutate({
+      prompt: form.prompt,
+    });
   }
 
   return (
